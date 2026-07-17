@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"net"
+	"strings"
 )
 
 func handleConnection(conn net.Conn) {
@@ -16,7 +18,21 @@ func handleConnection(conn net.Conn) {
 			fmt.Println("Error reading from TCP stream: ", err)
 		}
 
-		fmt.Println(recvBuf)
+		recvBuf = bytes.Trim(recvBuf, "\x00")
+
+		res := string(recvBuf)
+		res = strings.Replace(res, "\n", "", -1)
+
+		if res == "Quit" {
+			fmt.Println("Quitting ...")
+			return
+		}
+
+		if res == "hello" {
+			fmt.Println("hi")
+		} else {
+			fmt.Println(res)
+		}
 	}
 
 }

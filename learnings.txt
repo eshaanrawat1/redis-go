@@ -1,0 +1,17 @@
+parser
+- for {} is a while true loop (recap)
+- bufio.Reader for reading from stdin
+
+tcp server
+- goroutine for each accepted connection, pass conn to handleConnection
+- net.Listen, pass "tcp" as a parameter
+- tried tcp.ListenTcp, but that needs a tcp struct with tcp, ip, zone info
+- netcat for easy connections from a different terminal 
+
+reading tcp bytes
+- tcp is a stream of bytes
+- allocate buffer byte array (1024 is usually enough)
+- tried to convert to string and parse for cli args, failed
+- failed because this also converted null bytes as part of the string, "\x00"
+- had to use bytes.Trim to fix this, then convert using casting with string 
+
