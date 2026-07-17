@@ -1,7 +1,6 @@
 - data structure store for redis
-- hashing (if needed)
+- hashing
 - concurrency support, mutexes, thread pool
-- btree impl in go (or self balancing bst)
 - ttl for cache entries 
 - rdb for persistence
 - testing
