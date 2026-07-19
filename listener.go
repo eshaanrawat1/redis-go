@@ -16,6 +16,7 @@ func handleConnection(conn net.Conn) {
 		_, err := conn.Read(recvBuf)
 		if err != nil {
 			fmt.Println("Error reading from TCP stream: ", err)
+			return
 		}
 
 		recvBuf = bytes.Trim(recvBuf, "\x00")
@@ -41,6 +42,7 @@ func Listen() {
 	ln, err := net.Listen("tcp", ":5284")
 	if err != nil {
 		fmt.Println("Error happened: ", err)
+		return
 	}
 	fmt.Println("Server is listening...")
 
@@ -48,6 +50,7 @@ func Listen() {
 		conn, err := ln.Accept()
 		if err != nil {
 			fmt.Println("Error in accepting connection: ", err)
+			return
 		}
 
 		fmt.Println("Accepted a TCP connection")
