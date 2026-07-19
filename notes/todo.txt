@@ -1,3 +1,5 @@
+- string parse for cmds
+
 - data structure store for redis
 - hashing
 - concurrency support, mutexes, thread pool

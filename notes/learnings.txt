@@ -15,3 +15,5 @@ reading tcp bytes
 - failed because this also converted null bytes as part of the string, "\x00"
 - had to use bytes.Trim to fix this, then convert using casting with string 
 
+routing / command dispatcher
+- tagged switch is better than if block
