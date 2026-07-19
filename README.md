@@ -1,3 +1,3 @@
 # Redis-Go
 
-simple redis clone built in golang
+simple redis clone built in golang [WIP]
