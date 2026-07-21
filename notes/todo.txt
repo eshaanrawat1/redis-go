@@ -1,4 +1,5 @@
 - string parse for cmds
+- basic read and redo log
 
 - data structure store for redis
 - hashing

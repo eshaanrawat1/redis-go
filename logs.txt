@@ -1,0 +1,4 @@
+SET hello 123
+SET abc 234
+GET hello
+GET abc

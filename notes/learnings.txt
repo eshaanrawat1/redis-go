@@ -17,3 +17,14 @@ reading tcp bytes
 
 routing / command dispatcher
 - tagged switch is better than if block
+- strconv.Atoi for string to int
+- val, ok for checking existence in a go map
+
+file io
+- use path for string, create new constructor for logger
+- os.Open for files 
+- os.OpenFile for passing in perms and modes like append
+- file.WriteString instead of only using a buffer
+- scanner.Scan bufio reads line by line efficiently
+- append function
+- slice headers and copying by value

@@ -30,8 +30,52 @@ func handleDelete(key string) {
 	}
 }
 
+func parseCmd(res string) {
+	cmds := strings.Split(res, " ")
+
+	if cmds[0] == "Exit" {
+		fmt.Println("Exiting ...")
+		return
+	}
+
+	switch cmds[0] {
+	case "Exit":
+		fmt.Println("Exiting ...")
+		return
+	case "GET":
+		value, err := handleGet(cmds[1])
+		if err != nil {
+			fmt.Println("Error parsing arguments for Get")
+			return
+		}
+		fmt.Println(cmds[1], ": ", value)
+	case "SET":
+		num, err := strconv.Atoi(cmds[2])
+		if err != nil {
+			fmt.Println("Error parsing arguments for Set")
+			return
+		}
+		handleSet(cmds[1], num)
+		fmt.Println("Set: ", cmds[1], "to: ", num)
+	case "DELETE":
+		handleDelete(cmds[1])
+		fmt.Println("Deleted: ", cmds[1])
+	default:
+		fmt.Println("Invalid command detected: ", cmds[0])
+	}
+}
+
+func replayCmd(cmds []string) {
+	for _, cmd := range cmds {
+		parseCmd(cmd)
+	}
+}
+
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
+
+	logger := NewLogger()
+	replayCmd(logger.ReadLog())
 
 	for {
 		recvBuf := make([]byte, 1024)
@@ -45,41 +89,11 @@ func handleConnection(conn net.Conn) {
 		recvBuf = bytes.Trim(recvBuf, "\x00")
 
 		res := string(recvBuf)
+		logger.WriteLog(res)
+
 		res = strings.Replace(res, "\n", "", -1)
 
-		cmds := strings.Split(res, " ")
-
-		if cmds[0] == "Exit" {
-			fmt.Println("Exiting ...")
-			return
-		}
-
-		switch cmds[0] {
-		case "Exit":
-			fmt.Println("Exiting ...")
-			return
-		case "GET":
-			value, err := handleGet(cmds[1])
-			if err != nil {
-				fmt.Println("Error parsing arguments for Get")
-				return
-			}
-			fmt.Println(cmds[1], ": ", value)
-		case "SET":
-			num, err := strconv.Atoi(cmds[2])
-			if err != nil {
-				fmt.Println("Error parsing arguments for Set")
-				return
-			}
-			handleSet(cmds[1], num)
-			fmt.Println("Set: ", cmds[1], "to: ", num)
-		case "DELETE":
-			handleDelete(cmds[1])
-			fmt.Println("Deleted: ", cmds[1])
-		default:
-			fmt.Println("Invalid command detected: ", cmds[0])
-		}
-		fmt.Println(cache)
+		parseCmd(res)
 	}
 
 }
